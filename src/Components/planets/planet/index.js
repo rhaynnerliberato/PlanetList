@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import GrayImg from '../../shared/gray_img'
 import DescriptionWithLink from '../../shared/descriptionWithLink'
 
@@ -9,40 +9,31 @@ async function getSatellites(id) {
     return data
 }
 
-class Planet extends React.Component {
+const Planet = (props) => {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            satellites: []
-        }
-    }
+    const [satellites, setSatellites] = useState([])
 
-    componentDidMount() {
-        getSatellites(this.props.id).then(data => {
-            this.setState(state => ({
-                satellites: data['satellites']
-            }))
+    useEffect(() => {
+        getSatellites(props.id).then(data => {
+            setSatellites(data['satellites'])
         })
-    }
+    }, [])
 
-    render() {
-        return (
-            <div onClick={() => this.props.clickOnPlanet(this.props.name)}>
-                <h4>{this.props.name}</h4>
-                <DescriptionWithLink description={this.props.description} link={this.props.link} />
-                <GrayImg img_url={this.props.img_url} gray={this.props.gray} />
-                <h5>Satellites</h5>
-                <ul>
-                    {this.state.satellites.map((satellite, index) =>
-                        <li  key={index}>
-                            {satellite.name}
-                        </li>
-                    )}
-                </ul>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <h4>{props.name}</h4>
+            <DescriptionWithLink description={props.description} link={props.link} />
+            <GrayImg img_url={props.img_url} gray={props.gray} />
+            <h5>Satellites</h5>
+            <ul>
+                {satellites.map((satellite, index) =>
+                    <li key={index}>
+                        {satellite.name}
+                    </li>
+                )}
+            </ul>
+        </div>
+    )
 }
 
 export default Planet
