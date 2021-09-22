@@ -1,11 +1,12 @@
 import React, {Fragment} from 'react'
 import Planets from './Components/planets'
+import Routes from './routes'
 
 function App() {
   return (
-    <Fragment>
-      <Planets />
-    </Fragment>
+    <div>
+      <Routes />
+    </div>
   );
 }
 
